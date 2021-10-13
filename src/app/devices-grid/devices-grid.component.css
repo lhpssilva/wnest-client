@@ -1,0 +1,30 @@
+.empty-container {
+  display: flex;
+  min-height: 152px;
+  justify-content: center;
+  justify-items: center;
+}
+
+mat-card-content ul {
+  list-style-type: none;
+  margin: 0 0 0 16px;
+  padding: 0;
+}
+
+mat-card-content ul li span {
+  color: #FFFFFFB3;
+}
+
+.nodata-msg {
+  display: block;
+  margin: auto;
+  padding: 0;
+  width: fit-content;
+  font-size: 24px;
+  color: #525252;
+}
+
+.card-menu {
+  display: flex; 
+  justify-content: end;
+}

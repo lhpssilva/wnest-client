@@ -14,7 +14,7 @@ interface SideNavItem {
 export class AppComponent {
   title = 'WNest';
   sideNavItems: Array<SideNavItem> = [
-    { linkValue: '/', iconName: 'home', title: 'Home' },
+    { linkValue: '/', iconName: 'dashboard', title: 'Dashboard' },
     { linkValue: '/device-management', iconName: 'devices_other', title: 'Device Management' },
     { linkValue: '/category-management', iconName: 'all_inclusive', title: 'Category Management' }
   ];
