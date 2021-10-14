@@ -22,7 +22,9 @@ export class DevicesGridComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.checkTheCurrentRoute();
     try {
-      this.categoryList = await this.retrieveCategories();
+      if (this.isDeviceManagementRoute) {
+        this.categoryList = await this.retrieveCategories();
+      }
       this.deviceList = await this.retrieveDevices();
       this.hasData = this.isEmpty(this.deviceList);
     } catch (err: any) {
