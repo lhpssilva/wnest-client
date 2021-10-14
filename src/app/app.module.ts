@@ -4,17 +4,23 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CategoryManagementComponent } from './category-management/category-management.component';
+import { DevicesGridComponent } from './devices-grid/devices-grid.component';
+import { CategoriesGridComponent } from './categories-grid/categories-grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    CategoryManagementComponent
+    DevicesGridComponent,
+    CategoriesGridComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,6 +28,10 @@ import { CategoryManagementComponent } from './category-management/category-mana
     MatSidenavModule,
     MatListModule,
     MatIconModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatMenuModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
