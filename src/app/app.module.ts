@@ -8,12 +8,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DevicesGridComponent } from './devices-grid/devices-grid.component';
 import { CategoriesGridComponent } from './categories-grid/categories-grid.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +28,7 @@ import { CategoriesGridComponent } from './categories-grid/categories-grid.compo
     routingComponents,
     DevicesGridComponent,
     CategoriesGridComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +40,13 @@ import { CategoriesGridComponent } from './categories-grid/categories-grid.compo
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],

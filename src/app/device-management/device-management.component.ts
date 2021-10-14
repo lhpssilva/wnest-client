@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-device-management',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceManagementComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
+  openSnackbar(message: string) {
+    this._snackBar.open(message, 'close', { duration: 5000 });
+  }
 }

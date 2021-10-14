@@ -27,9 +27,16 @@
       </mat-card-content>
     </mat-card>
   </div>
+  <div class="col" *ngIf="isDeviceManagementRoute">
+    <mat-card class="clickable" (click)="openForm()">
+      <mat-card-content class="add-card-container">
+        <mat-icon aria-hidden="false" aria-label="Add new card icon">add</mat-icon>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 
-<div *ngIf="!hasData" class="row empty-container full-width">
+<div *ngIf="!hasData || !isRequestDone" class="row empty-container full-width">
   <mat-spinner *ngIf="!isRequestDone" diameter="60" style="margin: auto;"></mat-spinner>
   <div *ngIf="isRequestDone" class="nodata-msg">Nothing to show here.</div>
 </div>
