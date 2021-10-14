@@ -39,7 +39,6 @@ export class FormComponent implements OnInit, OnChanges {
     if (this.isCategoryFieldDisabled) {
       this.showCategoryHint = true;
     }
-    console.log(this.categoryList);
   }
 
   ngOnChanges(): void {
