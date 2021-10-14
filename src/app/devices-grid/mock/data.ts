@@ -5,6 +5,18 @@ export interface Device {
   partNumber: number
 }
 
+export interface Category {
+  id: number,
+  name: string
+}
+
+export const categoryListMock: Array<Category> = [
+  // {
+  //   id: 1,
+  //   name: 'Smartphone'
+  // }
+]
+
 export const deviceListMock: Array<Device> = [
   {
     id: 1,

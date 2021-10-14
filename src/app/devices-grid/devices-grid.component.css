@@ -28,3 +28,9 @@ mat-card-content ul li span {
   display: flex; 
   justify-content: end;
 }
+
+.add-card-container {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
