@@ -1,0 +1,22 @@
+<div class="container">
+  <h2 mat-dialog-title>{{ categoryDialogTitle }}</h2>
+  <mat-dialog-content class="mat-typography" style="max-width: 260px;">
+    <form [formGroup]="categoryForm">
+      <div class="row row-cols-1">
+        <mat-form-field class="col" appearance="outline" color="accent">
+          <mat-label>Category Name *</mat-label>
+            <input matInput type="text" placeholder="" formControlName="name">
+            <mat-hint *ngIf="showCategoryHint">Must not contain more than 128 characters and must not be empty.</mat-hint>
+        </mat-form-field>
+
+        <div class="pt-3" style="display: flex; justify-content: end;">
+          <button 
+            mat-raised-button 
+            color="accent" 
+            type="submit"
+            (click)="submitNewCategory()">Submit</button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

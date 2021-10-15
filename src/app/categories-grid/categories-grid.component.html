@@ -1,9 +1,40 @@
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
-  <div class="col" *ngFor="let card of [1,2,3,4,5,6,7,8]">
-    <mat-card>
+<div *ngIf="hasData" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
+  <div class="col" *ngFor="let category of categoryList">
+    <mat-card style="min-height: 135px;">
+      <mat-card-header>
+        <mat-card-title>Category</mat-card-title>
+        <mat-card-subtitle>#{{ category.id }}</mat-card-subtitle>
+        <div class="card-menu full-width" *ngIf="isCategoryManagementRoute">
+          <mat-icon class="clickable" aria-hidden="false" aria-label="Card menu icon" [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item disabled>
+              <mat-icon>edit</mat-icon>
+              <span>Edit Device</span>
+            </button>
+            <button mat-menu-item (click)="deleteDevice(category.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete Device</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-card-header>
       <mat-card-content>
-          Smartphone
+        <ul>
+          <li><span>Name:</span> {{ category.name }}</li>
+        </ul>
       </mat-card-content>
     </mat-card>
   </div>
+  <div class="col" *ngIf="isCategoryManagementRoute">
+    <mat-card class="clickable" (click)="openForm()">
+      <mat-card-content class="add-card-container">
+        <mat-icon aria-hidden="false" aria-label="Add new card icon">add</mat-icon>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="!hasData || !isRequestDone" class="row empty-container full-width">
+  <mat-spinner *ngIf="!isRequestDone" diameter="60" style="margin: auto;"></mat-spinner>
+  <div *ngIf="isRequestDone" class="nodata-msg">Nothing to show here.</div>
 </div>

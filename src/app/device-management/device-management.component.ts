@@ -7,13 +7,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./device-management.component.css']
 })
 export class DeviceManagementComponent implements OnInit {
-
+  routeTitle: string = 'Device Management';
   constructor(private _snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  openSnackbar(message: string) {
+  openSnackbar(message: string): void {
     this._snackBar.open(message, 'close', { duration: 5000 });
   }
 }
