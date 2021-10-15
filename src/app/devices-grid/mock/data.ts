@@ -11,10 +11,10 @@ export interface Category {
 }
 
 export const categoryListMock: Array<Category> = [
-  // {
-  //   id: 1,
-  //   name: 'Smartphone'
-  // }
+  {
+    id: 1,
+    name: 'Smartphone'
+  }
 ]
 
 export const deviceListMock: Array<Device> = [

@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DevicesGridComponent } from './devices-grid/devices-grid.component';
 import { CategoriesGridComponent } from './categories-grid/categories-grid.component';
 import { FormComponent } from './form/form.component';
+import { FormCategoryComponent } from './form-category/form-category.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FormComponent } from './form/form.component';
     DevicesGridComponent,
     CategoriesGridComponent,
     FormComponent,
+    FormCategoryComponent,
   ],
   imports: [
     BrowserModule,

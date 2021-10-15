@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-category-management',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-management.component.css']
 })
 export class CategoryManagementComponent implements OnInit {
-
-  constructor() { }
+  routeTitle: string = 'Category Management';
+  
+  constructor(private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
+  openSnackbar(message: string) {
+    this._snackBar.open(message, 'close', { duration: 5000 });
+  }
 }
