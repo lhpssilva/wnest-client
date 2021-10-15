@@ -1,4 +1,4 @@
-<div *ngIf="hasData" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
   <div class="col" *ngFor="let device of deviceList">
     <mat-card>
       <mat-card-header>
@@ -20,14 +20,14 @@
       </mat-card-header>
       <mat-card-content>
         <ul>
-          <li><span>Category:</span> {{ device.category }}</li>
+          <li><span>Category:</span> {{ device.name }}</li>
           <li><span>Color:</span> {{ device.color }}</li>
           <li><span>Part Number:</span> {{ device.partNumber }}</li>
         </ul>
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="col" *ngIf="isDeviceManagementRoute">
+  <div class="col" *ngIf="isDeviceManagementRoute && isRequestDone">
     <mat-card class="clickable" (click)="openForm()">
       <mat-card-content class="add-card-container">
         <mat-icon aria-hidden="false" aria-label="Add new card icon">add</mat-icon>
@@ -36,7 +36,10 @@
   </div>
 </div>
 
-<div *ngIf="!hasData || !isRequestDone" class="row empty-container full-width">
-  <mat-spinner *ngIf="!isRequestDone" diameter="60" style="margin: auto;"></mat-spinner>
-  <div *ngIf="isRequestDone" class="nodata-msg">Nothing to show here.</div>
+<div *ngIf="!isRequestDone" class="row empty-container full-width">
+  <mat-spinner diameter="60" style="margin: auto;"></mat-spinner>
+</div>
+
+<div *ngIf="!hasData && !isDeviceManagementRoute" class="row empty-container full-width">
+  <div *ngIf="isRequestDone && !hasData" class="nodata-msg">Nothing to show here.</div>
 </div>

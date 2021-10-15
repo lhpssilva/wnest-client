@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FormCategoryComponent } from '../form-category/form-category.component';
 import { categoryListMock } from '../devices-grid/mock/data';
+import { CategoryService } from '../api/category-service';
 
 interface Category {
   id: number,
@@ -22,48 +23,48 @@ export class CategoriesGridComponent implements OnInit {
   hasData: boolean = false;
   isRequestDone: boolean = false;
 
-  constructor(private _router: Router, public dialog: MatDialog) { }
+  constructor(private _router: Router, public dialog: MatDialog, private categoryService: CategoryService) { }
 
   async ngOnInit(): Promise<void> {
     this.checkTheCurrentRoute();
     try {
-      this.categoryList = await this.retrieveCategories();
-      this.hasData = this.isEmpty(this.categoryList);
+      this.retrieveCategories();
     } catch (err: any) {
       console.error(err);
       this.sendMessageToParent(err.message);
     }
   }
 
-  retrieveCategories(): Promise<Array<Category>> {
+  retrieveCategories(): void {
     this.hasData = false;
     this.isRequestDone = false;
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
+
+    this.categoryService.getAllCategories()
+      .subscribe((data: Array<Category>) => {
         this.isRequestDone = true;
-        resolve(categoryListMock);
-      }, 3000);
-    });
+        this.hasData = this.isNotEmpty(data);
+        this.categoryList = data;
+        console.log(this.categoryList)
+      });
   }
 
   async openForm(): Promise<void> {
     this.dialog.open(FormCategoryComponent)
-      .afterClosed().subscribe(async result => {
+      .afterClosed().subscribe(result => {
         if (result) {
-          await this.retrieveCategories();
-          this.hasData = this.isEmpty(this.categoryList);
-          this.categoryList.push(<Category> {
-            id: this.categoryList.length + 1,
-            name: result.name
-          });
+          this.retrieveCategories();
+          this.sendMessageToParent(`New category created successfully.`);
         }
       });
   }
 
   deleteDevice(id: number): void {
-    let categoryIndex = this.categoryList.findIndex(category => category.id === id);
-    this.categoryList.splice(categoryIndex, 1);
-    this.sendMessageToParent(`Category #${id} deleted successfully.`)
+    this.categoryService.deleteCategory(id)
+      .subscribe(() => {
+        this.sendMessageToParent(`Device #${id} deleted successfully.`);
+        let deviceIndex = this.categoryList.findIndex(device => device.id === id);
+        this.categoryList.splice(deviceIndex, 1);
+      });
   }
 
   checkTheCurrentRoute(): void {
@@ -71,8 +72,11 @@ export class CategoriesGridComponent implements OnInit {
       this.isCategoryManagementRoute = true;
   }
 
-  isEmpty(data: Array<any>): boolean {
-    return data.length > 0;
+  isNotEmpty(data: Array<any>): boolean {
+    if (data !== null && data.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   sendMessageToParent(value: string) {

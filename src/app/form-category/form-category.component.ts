@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CategoryService } from '../api/category-service';
+import { Category } from '../devices-grid/mock/data';
 
 interface CategoryDialogData {
   name: string
@@ -19,20 +21,25 @@ export class FormCategoryComponent implements OnInit {
   formFieldControls: any;
 
   constructor(public dialogRef: MatDialogRef<FormCategoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CategoryDialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: CategoryDialogData,
+    private categoryService: CategoryService) {
     }
 
   ngOnInit(): void {}
 
   submitNewCategory(): void {
     this.formFieldControls = {...this.categoryForm.controls };
+    let newCategory: Category;
 
     if (this.formFieldControls.name.status === 'INVALID') {
       this.showCategoryHint = true;
     } else {
       this.data = { name: this.formFieldControls.name.value };
-      console.log(this.data)
-      this.dialogRef.close(this.data);
+      this.categoryService.createNewCategory(this.formFieldControls.name.value)
+        .subscribe((data: Category) => {
+          this.data = data;
+          this.dialogRef.close(this.data);
+        })
     }
   }
 }

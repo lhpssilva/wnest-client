@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CategoryService } from '../api/category-service';
+import { DeviceService } from '../api/device-service';
 import { FormComponent } from '../form/form.component';
-import { Device, Category, deviceListMock, categoryListMock } from './mock/data';
+import { Device, Category, categoryListMock } from './mock/data';
 
 @Component({
   selector: 'app-devices-grid',
@@ -17,74 +19,66 @@ export class DevicesGridComponent implements OnInit {
   hasData: boolean = false;
   isDeviceManagementRoute: boolean = false;
 
-  constructor(private _router: Router, public dialog: MatDialog) { }
+  constructor(private _router: Router,
+    public dialog: MatDialog,
+    private deviceService: DeviceService,
+    private categoryService: CategoryService) { }
 
   async ngOnInit(): Promise<void> {
     this.checkTheCurrentRoute();
     try {
       if (this.isDeviceManagementRoute) {
-        this.categoryList = await this.retrieveCategories();
+        this.retrieveCategories();
       }
-      this.deviceList = await this.retrieveDevices();
-      this.hasData = this.isEmpty(this.deviceList);
+      this.retrieveDevices();
     } catch (err: any) {
       console.error(err);
       this.sendMessageToParent(err.message);
     }
   }
 
-  retrieveDevices(): Promise<Array<Device>> {
+  retrieveDevices(): void{
     this.hasData = false;
     this.isRequestDone = false;
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
+    
+    try {
+    this.deviceService.getAllDevices()
+      .subscribe((data: Array<Device>) => {
         this.isRequestDone = true;
-        // reject(new Error('Something went wrong.'));
-        resolve(deviceListMock);
-      }, 3000);
-    });
+        this.hasData = this.isNotEmpty(data);
+        this.deviceList = data;
+        console.log(this.deviceList)
+      });
+    } catch (err: any) {
+      console.error(err.error);
+    }
   }
 
-  retrieveCategories(): Promise<Array<Category>> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(categoryListMock);
-      }, 3000);
-    });
+  retrieveCategories(): void {
+    this.categoryService.getAllCategories()
+      .subscribe((data: Array<Category>) => {
+        this.categoryList = data;
+        console.log(this.categoryList)
+      });
   }
 
   async openForm(): Promise<void> {
     this.dialog.open(FormComponent, { data: { categories: this.categoryList }})
-      .afterClosed().subscribe(async result => {
+      .afterClosed().subscribe(result => {
         if (result) {
-          await this.retrieveDevices();
-          this.hasData = this.isEmpty(this.deviceList);
-          this.deviceList.push(<Device> {
-            id: this.deviceList.length + 1,
-            category: result.categories,
-            color: result.color,
-            partNumber: result.partNumber
-          });
+          this.retrieveDevices();
+          this.sendMessageToParent(`New device created successfully.`);
         }
       });
   }
 
-  addNewDevice(): void {
-    let newDevice: Device = {
-      id: this.deviceList.length + 1,
-      category: 'SmartTv',
-      color: 'white',
-      partNumber: 1
-    };
-
-    this.deviceList.push(newDevice);
-    this.sendMessageToParent(`Device #${newDevice.id} added successfully.`);
-  }
-
   deleteDevice(id: number): void {
-    let deviceIndex = this.deviceList.findIndex(device => device.id === id);
-    this.deviceList.splice(deviceIndex, 1);
-    this.sendMessageToParent(`Device #${id} deleted successfully.`)
+    this.deviceService.deleteDevice(id)
+      .subscribe(() => {
+        this.sendMessageToParent(`Device #${id} deleted successfully.`);
+        let deviceIndex = this.deviceList.findIndex(device => device.id === id);
+        this.deviceList.splice(deviceIndex, 1);
+      });
   }
 
   checkTheCurrentRoute(): void {
@@ -92,8 +86,11 @@ export class DevicesGridComponent implements OnInit {
       this.isDeviceManagementRoute = true;
   }
 
-  isEmpty(data: Array<any>): boolean {
-    return data.length > 0;
+  isNotEmpty(data: Array<any>): boolean {
+    if (data !== null && data.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   sendMessageToParent(value: string) {

@@ -22,6 +22,9 @@ import { DevicesGridComponent } from './devices-grid/devices-grid.component';
 import { CategoriesGridComponent } from './categories-grid/categories-grid.component';
 import { FormComponent } from './form/form.component';
 import { FormCategoryComponent } from './form-category/form-category.component';
+import { HttpClientModule } from '@angular/common/http';
+import { DeviceService } from './api/device-service';
+import { CategoryService } from './api/category-service';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,7 @@ import { FormCategoryComponent } from './form-category/form-category.component';
     DevicesGridComponent,
     CategoriesGridComponent,
     FormComponent,
-    FormCategoryComponent,
+    FormCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,10 @@ import { FormCategoryComponent } from './form-category/form-category.component';
     MatSelectModule,
     MatButtonModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    DeviceService,
+    CategoryService
   ],
   providers: [],
   bootstrap: [AppComponent]
