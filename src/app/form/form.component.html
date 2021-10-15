@@ -1,0 +1,32 @@
+<div class="container">
+    <h2 mat-dialog-title>Add New Device</h2>
+    <mat-dialog-content class="mat-typography" style="max-width: 260px;">
+      <form [formGroup]="deviceForm">
+        <div class="row row-cols-1">
+          <mat-form-field class="col" appearance="outline" color="accent">
+            <mat-label>Category *</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of categoryList" value="{{category.id}}">{{ category.name }}</mat-option>
+            </mat-select>
+            <mat-hint *ngIf="showCategoryHint">The new device must have a category.</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="col pt-2 pb-2" appearance="outline" color="accent">
+            <mat-label>Color *</mat-label>
+            <input matInput type="text" placeholder="Ex. white" formControlName="color">
+            <mat-hint *ngIf="showColorHint">The color must be up to 16 characters long.</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline" color="accent">
+            <mat-label>Part Number *</mat-label>
+            <input matInput type="number" placeholder="Ex. 1, 2,..." min="1" formControlName="partNumber">
+            <mat-hint *ngIf="showPartNumberHint">The part number value must be greater than '0'.</mat-hint>
+          </mat-form-field>
+          
+          <div class="pt-3" style="display: flex; justify-content: end;">
+            <button mat-raised-button color="accent" type="submit" [disabled]="isCategoryFieldDisabled" (click)="submitNewDevice()">Submit</button>
+          </div>
+        </div>
+      </form>
+    </mat-dialog-content>
+</div>

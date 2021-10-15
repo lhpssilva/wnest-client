@@ -1,0 +1,23 @@
+a {
+  text-decoration: none;
+  color: #FFF;
+}
+
+mat-list-item span {
+  margin-left: 12px;
+}
+
+mat-list-item:hover {
+  background-color: #666;
+}
+
+mat-icon {
+  margin: 0;
+}
+
+mat-icon.chevron-left {
+  right: 0;
+  margin-right: 12px;
+  float: right;
+  position: absolute;
+}
