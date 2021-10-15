@@ -1,7 +1,8 @@
-import { Component, Inject, OnChanges, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Category } from '../devices-grid/mock/data';
+import { DeviceService } from '../api/device-service';
+import { Category, Device } from '../devices-grid/mock/data';
 
 interface DialogData {
   categoryId: number,
@@ -15,7 +16,7 @@ interface DialogData {
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit, OnChanges {
+export class FormComponent implements OnInit {
   deviceFormFields = {
     category: new FormControl('', { validators: [Validators.required] }),
     color: new FormControl('', { validators: [Validators.required, Validators.maxLength(16)] }),
@@ -30,24 +31,23 @@ export class FormComponent implements OnInit, OnChanges {
   showPartNumberHint: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<FormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private deviceService: DeviceService) {}
 
   ngOnInit(): void {
-    this.categoryList = this.data.categories;
-    this.isCategoryFieldDisabled = this.categoryList.length === 0;
+    console.log(this.data)
+    if (this.data.categories !== null) {
+      this.categoryList = this.data.categories;
+    }
 
+    this.isCategoryFieldDisabled = this.categoryList.length === 0;
     if (this.isCategoryFieldDisabled) {
       this.showCategoryHint = true;
     }
   }
 
-  ngOnChanges(): void {
-    console.log('CHANGES')
-  }
-
   submitNewDevice() {
     this.fieldsValues = {...this.deviceForm.controls };
-    console.log(this.fieldsValues);
     if (this.deviceForm.status === 'INVALID') {
       if (this.fieldsValues.category.value === '') {
         this.showCategoryHint = true;
@@ -73,7 +73,13 @@ export class FormComponent implements OnInit, OnChanges {
         partNumber: this.fieldsValues.partNumber.value,
         categories: []
       };
-      this.dialogRef.close(this.data);
+      this.deviceService.createNewDevice({
+        categoryId: Number.parseInt(this.fieldsValues.category.value),
+        color: this.fieldsValues.color.value,
+        partNumber: this.fieldsValues.partNumber.value
+      }).subscribe((data: any) => {
+        this.dialogRef.close(data);
+      })
     }
   }
 }

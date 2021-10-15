@@ -19,3 +19,18 @@ mat-card-content ul li span {
   justify-content: center;
   justify-items: center;
 }
+
+.add-card-container {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+
+.nodata-msg {
+  display: block;
+  margin: auto;
+  padding: 0;
+  width: fit-content;
+  font-size: 24px;
+  color: #525252;
+}
